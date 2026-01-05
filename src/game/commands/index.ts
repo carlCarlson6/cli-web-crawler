@@ -8,7 +8,11 @@ export const init = (
 ) => {
   const newGameState = createNewGame(name);
   setGame(newGameState);
-  return `Game initialized. Let the adventure begin!\n${describeRoom(newGameState.currentRoom)}`;
+  return [
+    `Game initialized. Welcome ${newGameState.player.name}!`,
+    "A new journey is ahead of you. Let the adventure begin!",
+    describeRoom(newGameState.currentRoom),
+  ].join("\n");
 }
 
 export const describeRoom = (room: Room) => {

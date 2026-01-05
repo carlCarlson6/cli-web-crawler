@@ -87,7 +87,7 @@ function monsterAttack(monsterName: string, game: Game): { game: Game; dialogs: 
       dialogs: [
         ...dialogs, 
         `You have been defeated by ${monster.name}. Game over.`, 
-        "You are now dead., Restart the game to play again."
+        "You are now dead. Restart the game with init to play again."
       ]
     };
   }

@@ -1,9 +1,9 @@
+import { useGame, type GameCommands } from "@/game";
 import { Container, Flex, Input, InputGroup, ScrollArea, Text } from "@chakra-ui/react";
 import { useState } from "react";
 import { useStickToBottom } from "use-stick-to-bottom"
 import { shell } from "./shell";
-import { useGame, type GameCommands } from "./game";
-import { banner } from "./game/utils";
+import { banner } from "@/game/utils";
 
 type HistoryElement = {
   idx: number;
