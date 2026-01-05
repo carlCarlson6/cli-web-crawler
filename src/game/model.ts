@@ -15,7 +15,7 @@ const playerSchema = z.object({
     weapon: z.string().nullable(),
     armor:  z.string().nullable(),
   }),
-  items: z.array(z.string()),
+  inventory: z.array(z.string()),
 });
 
 const monsterSchema = z.object({
@@ -33,6 +33,7 @@ const roomSchema = z.object({
     to: z.number()
   })),
   monsters: monsterSchema.array(),
+  items: z.array(z.string()),
 });
 
 export const gameSchema = z.object({
@@ -47,3 +48,4 @@ export type Monster = z.infer<typeof monsterSchema>;
 export type Player = z.infer<typeof playerSchema>;
 export type Room = z.infer<typeof roomSchema>;
 export type Game = z.infer<typeof gameSchema>;
+export type UpdateGame = (game: Game) => void;

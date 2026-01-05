@@ -23,5 +23,6 @@ export const shell = (input: string, gameCommands: GameCommands) => {
     .with("player",   () => gameCommands.player())
     .with("attack",   () => gameCommands.attack(input.split(" ").slice(1).join(" ")))
     .with("map",      () => gameCommands.map())
+    .with("search",   () => gameCommands.search())
     .exhaustive(      () => "Unknown command: " + commandKeyWord);
 }

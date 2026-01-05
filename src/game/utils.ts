@@ -1,6 +1,6 @@
 import type { Game } from "./model";
 
-export const throwDice = () => Math.floor(Math.random() * 8) + 1;
+export const dice = () => Math.floor(Math.random() * 8) + 1;
 
 export const level1 = [
   {
@@ -10,6 +10,10 @@ export const level1 = [
       { direction: "north", to: 1 }
     ],
     monsters: [],
+    items: [
+      "Minor Health Potion",
+      "Broken Sword"
+    ],
   },
   {
     id: 1,
@@ -22,6 +26,7 @@ export const level1 = [
       { name: "Goblin 01", health: 10, attack: 6, defense: 4 },
       { name: "Goblin 02", health: 10, attack: 6, defense: 4 },
     ],
+    items: [],
   }, 
   {
     id: 2,
@@ -33,17 +38,18 @@ export const level1 = [
     monsters: [
       { name: "Water Serpent", health: 15, attack: 8, defense: 6 }
     ],
+    items: [],
   },
 ] satisfies Game["dungeon"];
 
 const createNewPlayer = (name: string|undefined)=> {
-  const constitution = throwDice();
-  const strength     = throwDice();
-  const agility      = throwDice();
-  const intelligence = throwDice();
+  const constitution = dice();
+  const strength     = dice();
+  const agility      = dice();
+  const intelligence = dice();
 
   return {
-    name: name ?? "Explorer",
+    name: !!name ? name : "Explorer",
     level: 1,
     health: constitution * 3,
     magicPoints: Math.floor(intelligence / 2),
@@ -57,7 +63,7 @@ const createNewPlayer = (name: string|undefined)=> {
       weapon: null,
       armor: null,
     },
-    items: [],
+    inventory: [],
   };
 }
 

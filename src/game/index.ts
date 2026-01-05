@@ -4,6 +4,7 @@ import { describeRoom, describePlayer, init, move } from "./commands";
 import { attackCommand } from "./commands/attack";
 import { createNewGame } from "./utils";
 import { showMapCommand } from "./commands/map";
+import { searchCommand } from "./commands/search";
 
 const loadSavedGame = () => {
   const savedState = localStorage.getItem("gameState");
@@ -27,6 +28,7 @@ export const useGame = () => {
     move:     (direction?: string)   => move(setGame, game, direction),
     attack:   (monsterName?: string) => attackCommand(setGame, game, monsterName),
     map:      ()                     => showMapCommand(game),
+    search:   ()                     => searchCommand(game, setGame),
   };
 }
 

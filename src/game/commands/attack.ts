@@ -1,6 +1,6 @@
 import { match } from "ts-pattern";
 import type { Game, Monster } from "../model";
-import { throwDice } from "../utils";
+import { dice } from "../utils";
 
 export const attackCommand = (
   updateGame: (game: Game) => void,
@@ -47,7 +47,7 @@ export const attackCommand = (
 }
 
 function calculateIniciative(agility: number) {
-  return agility + throwDice();
+  return agility + dice();
 }
 
 function defineOrder(game: Game) {
@@ -68,8 +68,8 @@ function monsterAttack(monsterName: string, game: Game): { game: Game; dialogs: 
   const monster = game.currentRoom.monsters.find(m => m.name === monsterName);
   if (!monster) return { game, dialogs: [] };
 
-  const monsterActack = monster.attack + throwDice();
-  const playerDefense = Math.max(game.player.stats.constitution, game.player.stats.agility) + throwDice();
+  const monsterActack = monster.attack + dice();
+  const playerDefense = Math.max(game.player.stats.constitution, game.player.stats.agility) + dice();
   const damage = monsterActack - playerDefense > 0 ? monsterActack - playerDefense : 0;
 
   const updatedPlayerHealth = game.player.health - damage;
@@ -101,8 +101,8 @@ function monsterAttack(monsterName: string, game: Game): { game: Game; dialogs: 
 }
 
 function playerAttack(game: Game, monster: Monster): { game: Game; dialogs: string[] } {
-  const playerAttackValue = game.player.stats.strength + throwDice();
-  const monsterDefense = monster.defense + throwDice();
+  const playerAttackValue = game.player.stats.strength + dice();
+  const monsterDefense = monster.defense + dice();
   const damage = playerAttackValue - monsterDefense > 0 ? playerAttackValue - monsterDefense : 0;
 
   const updatedMonsterHealth = monster.health - damage;

@@ -9,6 +9,5 @@ export function showMapCommand(game: Game) {
 }
 
 function drawDungeonMap(_: Room[], __: number[], ___: Room) { 
-
   return `===== NOTHING TO SEE HERE YET =====`;
 }

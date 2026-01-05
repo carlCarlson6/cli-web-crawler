@@ -49,7 +49,11 @@ function Console() {
             <HistoryDisplay history={history} />
 
             <Container pt={2}>
-              <ConsoleInput updateHistory={updateHistory} gameCommands={commands}/>
+              <ConsoleInput 
+                history={history}
+                updateHistory={updateHistory} 
+                gameCommands={commands}
+              />
             </Container>
           
           </ScrollArea.Content>
@@ -79,10 +83,28 @@ function HistoryDisplay({
   </>);
 }
 
-function ConsoleInput({ updateHistory, gameCommands }: { 
+function ConsoleInput({ updateHistory, gameCommands, history }: { 
   updateHistory: (newEntry: { input: string; output?: string }) => void,
+  history: HistoryElement[],
   gameCommands: GameCommands, 
 }) {
+  const handleOnKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      const commandInput = e.currentTarget.value;
+      const result = shell(commandInput, gameCommands);
+      updateHistory({ input: commandInput, output: result });
+      e.currentTarget.value = "";
+    }
+    if (e.key === "ArrowUp") { 
+      e.preventDefault();
+      const lastElement = history.at(-1);
+      if (lastElement) {
+        e.currentTarget.value = lastElement.input;
+      }
+    }
+  };
+
   return (
     <InputGroup startElement="> " pb={4}>
       <Input 
@@ -90,14 +112,7 @@ function ConsoleInput({ updateHistory, gameCommands }: {
         placeholder="Type a command..." 
         backgroundColor="black"
         border={"none"}
-        onKeyDown={e => {
-          if (e.key === "Enter") {
-            const commandInput = e.currentTarget.value;
-            const result = shell(commandInput, gameCommands);
-            updateHistory({ input: commandInput, output: result });
-            e.currentTarget.value = "";
-          }
-        }}
+        onKeyDown={handleOnKeyDown}
       />
     </InputGroup>
   );

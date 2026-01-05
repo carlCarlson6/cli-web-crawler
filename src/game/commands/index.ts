@@ -43,7 +43,9 @@ export const describePlayer = (game: Game) => [
   `Equipment:`,
   `  Weapon: ${game.player.equipment.weapon ?? "None"}`,
   `  Armor:  ${game.player.equipment.armor ?? "None"}`,
-  `Items: ${game.player.items.length > 0 ? game.player.items.join(", ") : "None"}`
+  `Items:`, 
+    `\t${game.player.inventory.length > 0 ? game.player.inventory.join("\n\t\t") : "None"}`,
+
 ].join("\n\t");
 
 export const move = (
