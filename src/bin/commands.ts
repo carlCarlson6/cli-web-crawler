@@ -24,6 +24,10 @@ function helpCommand(gameCommands: GameCommands, specificCommand: string | undef
       "By default, attacks the first monster in the room."])
     .with("map",      () => [
       "Display the map of the game world. Usage: map"])
+    .with("search",   () => [
+      "Search the current room for hidden items or passages. Usage: search"])
+    .with("use",      () => [
+      "Use an item from the player's inventory. Usage: use [item_name]"])
     .otherwise(() => [
       "Unknown command. No help available."])
     .join("\n");
