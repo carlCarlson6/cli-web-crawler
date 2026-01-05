@@ -37,10 +37,10 @@ export const level1 = [
 ] satisfies Game["dungeon"];
 
 const createNewPlayer = (name: string|undefined)=> {
-  const constitution = throwDice() + throwDice();
-  const strength     = throwDice() + throwDice();
-  const agility      = throwDice() + throwDice();
-  const intelligence = throwDice() + throwDice();
+  const constitution = throwDice();
+  const strength     = throwDice();
+  const agility      = throwDice();
+  const intelligence = throwDice();
 
   return {
     name: name ?? "Explorer",

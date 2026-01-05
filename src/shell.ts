@@ -29,12 +29,15 @@ export const shell = (input: string, gameCommands: GameCommands) => {
   }
 
   const commandParams = input.split(" ").at(1)?.trim().toLowerCase();
+
+  const monsterToAcctak = input.split(" ").slice(1).join(" ").trim();
+  console.log("monster to attack", monsterToAcctak);
   return match(commandKeyWord as keyof GameCommands)
     .with("move",     () => gameCommands.move(commandParams))
     .with("describe", () => gameCommands.describe())
     .with("init",     () => gameCommands.init(commandParams))
     .with("player",   () => gameCommands.player())
-    .with("attack",   () => gameCommands.attack(commandParams))
+    .with("attack",   () => gameCommands.attack(monsterToAcctak))
     .with("map",      () => gameCommands.map())
     .exhaustive(      () => "Unknown command: " + commandKeyWord);
 }

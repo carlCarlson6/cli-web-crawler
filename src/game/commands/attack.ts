@@ -12,7 +12,7 @@ export const attackCommand = (
     .with("dead", () => "You are dead and cannot attack. Please start a new game.")
     .with("exploration", () => undefined)
     .exhaustive();
-  if (guard) return guard;
+  if (!!guard) return guard;
 
   if (game.currentRoom.monsters.length === 0) {
     return "There are no monsters to attack in this room.";
@@ -27,6 +27,7 @@ export const attackCommand = (
   const actionsOrder = defineOrder(game);
 
   const result = actionsOrder.reduce<Game>((current, actor) => {
+    if (current.mode === "dead") return current;
     if (actor.type === "monster") {
       const { game: newGameState, dialogs: newDialogs } = monsterAttack(actor.name, current);
       dialogs.push(...newDialogs);
@@ -68,7 +69,7 @@ function monsterAttack(monsterName: string, game: Game): { game: Game; dialogs: 
   if (!monster) return { game, dialogs: [] };
 
   const monsterActack = monster.attack + throwDice();
-  const playerDefense = Math.max(game.player.stats.constitution, game.player.stats.agility)  + throwDice();
+  const playerDefense = Math.max(game.player.stats.constitution, game.player.stats.agility) + throwDice();
   const damage = monsterActack - playerDefense > 0 ? monsterActack - playerDefense : 0;
 
   const updatedPlayerHealth = game.player.health - damage;
@@ -77,7 +78,6 @@ function monsterAttack(monsterName: string, game: Game): { game: Game; dialogs: 
   ];
 
   if (updatedPlayerHealth <= 0) {
-    dialogs.push(`You have been defeated by ${monster.name}. Game over.`);
     return {
       game: {
         ...game,
