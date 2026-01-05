@@ -6,6 +6,7 @@ export function searchCommand(
   game: Game,
   updateGame: UpdateGame,
 ) {
+  if (game.mode !== "exploration") return "You cannot search while in combat or dead.";
   if (game.currentRoom.items.length === 0) return "You search the room but find nothing of interest.";
 
   const pickRandomItem = game.currentRoom.items[Math.floor(Math.random() * game.currentRoom.items.length)];

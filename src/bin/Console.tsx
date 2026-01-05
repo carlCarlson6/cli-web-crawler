@@ -8,12 +8,12 @@ import { banner } from "@/game/utils";
 type HistoryElement = {
   idx: number;
   input: string;
-  output?: string;
+  output: string;
 }
 
 function Console() {
   const [history, setHistory] = useState<HistoryElement[]>([]);
-  const updateHistory = (newEntry: { input: string; output?: string }) => setHistory(prevHistory => 
+  const updateHistory = (newEntry: { input: string; output: string }) => setHistory(prevHistory => 
     [...prevHistory, { idx: prevHistory.length, ...newEntry }]
   );
 
@@ -84,24 +84,27 @@ function HistoryDisplay({
 }
 
 function ConsoleInput({ updateHistory, gameCommands, history }: { 
-  updateHistory: (newEntry: { input: string; output?: string }) => void,
+  updateHistory: (newEntry: { input: string; output: string }) => void,
   history: HistoryElement[],
   gameCommands: GameCommands, 
 }) {
   const handleOnKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    //e.preventDefault();
     if (e.key === "Enter") {
-      e.preventDefault();
       const commandInput = e.currentTarget.value;
       const result = shell(commandInput, gameCommands);
       updateHistory({ input: commandInput, output: result });
       e.currentTarget.value = "";
     }
     if (e.key === "ArrowUp") { 
-      e.preventDefault();
       const lastElement = history.at(-1);
       if (lastElement) {
         e.currentTarget.value = lastElement.input;
       }
+    }
+    if (e.ctrlKey && e.key === "c") {
+      updateHistory({ input: e.currentTarget.value, output: '' });
+      e.currentTarget.value = "";
     }
   };
 

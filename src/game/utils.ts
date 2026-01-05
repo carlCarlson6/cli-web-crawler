@@ -26,7 +26,9 @@ export const level1 = [
       { name: "Goblin 01", health: 10, attack: 6, defense: 4 },
       { name: "Goblin 02", health: 10, attack: 6, defense: 4 },
     ],
-    items: [],
+    items: [
+      "Short Sword"
+    ],
   }, 
   {
     id: 2,

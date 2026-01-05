@@ -1,6 +1,7 @@
 import { match } from "ts-pattern";
 import type { Game, Monster } from "../model";
 import { dice } from "../utils";
+import { items } from "../items";
 
 export const attackCommand = (
   updateGame: (game: Game) => void,
@@ -13,17 +14,15 @@ export const attackCommand = (
     .with("exploration", () => undefined)
     .exhaustive();
   if (!!guard) return guard;
-
-  if (game.currentRoom.monsters.length === 0) {
-    return "There are no monsters to attack in this room.";
-  }
+  if (game.currentRoom.monsters.length === 0) return "There are no monsters to attack in this room.";
 
   const dialogs = [
     `You engage in combat with the monsters!`
   ];
 
-  const monsterTarget = game.currentRoom.monsters.find(m => m.name.toLowerCase() === monsterName?.toLowerCase()) ?? game.currentRoom.monsters[0];
-
+  const monsterTarget = game.currentRoom.monsters
+      .find(m => m.name.toLowerCase() === monsterName?.toLowerCase()) 
+    ?? game.currentRoom.monsters[0];
   const actionsOrder = defineOrder(game);
 
   const result = actionsOrder.reduce<Game>((current, actor) => {
@@ -101,7 +100,8 @@ function monsterAttack(monsterName: string, game: Game): { game: Game; dialogs: 
 }
 
 function playerAttack(game: Game, monster: Monster): { game: Game; dialogs: string[] } {
-  const playerAttackValue = game.player.stats.strength + dice();
+  const equippedWeapon = items.find(i => i.name === game.player.equipment.weapon)?.dammage ?? 0;
+  const playerAttackValue = dice() + game.player.stats.strength + equippedWeapon;
   const monsterDefense = monster.defense + dice();
   const damage = playerAttackValue - monsterDefense > 0 ? playerAttackValue - monsterDefense : 0;
 

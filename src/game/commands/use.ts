@@ -1,5 +1,5 @@
+import { items } from "../items";
 import type { Game, UpdateGame } from "../model";
-import { items as usableItems } from "../items";
 
 export const useItemCommand = (
   updateGame: UpdateGame,
@@ -13,12 +13,12 @@ export const useItemCommand = (
   if (itemIndex === -1) {
     return `You do not have a "${itemName}" in your inventory.`;
   }
-  const item = usableItems.find(i => i.name === itemName);
+  const item = items.find(i => i.name === itemName);
   if (!item) {
     return `Item "${itemName}" cannot be used.`;
   }
 
-  const newGameState = item.effect(game);
+  const newGameState = item.use(game);
   updateGame(newGameState);
 
   return `You used "${item.name}".`; 
