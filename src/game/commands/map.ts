@@ -8,7 +8,7 @@ export function showMapCommand(game: Game) {
   ].join("\n");
 }
 
-function drawDungeonMap(dungeon: Room[], visitedRooms: number[], currentRoom: Room) { 
+function drawDungeonMap(_: Room[], __: number[], ___: Room) { 
 
   return `===== NOTHING TO SEE HERE YET =====`;
 }
