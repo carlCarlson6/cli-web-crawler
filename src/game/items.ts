@@ -56,5 +56,24 @@ export const items = [
       };
     },
     dammage: 1
+  }, 
+  {
+    name: "Leather Armor" as const,
+    description: "Basic leather armor. Increases defense when equipped.",
+    searchDifficulty: 8,
+    use: (game: Game) => {
+      return {
+        ...game,
+        player: {
+          ...game.player,
+          equipment: {
+            ...game.player.equipment,
+            armor: "Leather Armor"
+          },
+          inventory: game.player.inventory.filter(i => i !== "Leather Armor")
+        }
+      };
+    },
+    defense: 1
   }
 ];

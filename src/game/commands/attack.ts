@@ -68,7 +68,8 @@ function monsterAttack(monsterName: string, game: Game): { game: Game; dialogs: 
   if (!monster) return { game, dialogs: [] };
 
   const monsterActack = monster.attack + dice();
-  const playerDefense = Math.max(game.player.stats.constitution, game.player.stats.agility) + dice();
+  const playerArmor = items.find(i => i.name === game.player.equipment.armor)?.defense ?? 0
+  const playerDefense = dice() + playerArmor + Math.max(game.player.stats.constitution, game.player.stats.agility);
   const damage = monsterActack - playerDefense > 0 ? monsterActack - playerDefense : 0;
 
   const updatedPlayerHealth = game.player.health - damage;

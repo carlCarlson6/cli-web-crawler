@@ -23,8 +23,8 @@ export const level1 = [
       { direction: "south", to: 0 }, 
     ],
     monsters: [
-      { name: "Goblin 01", health: 10, attack: 6, defense: 4 },
-      { name: "Goblin 02", health: 10, attack: 6, defense: 4 },
+      { name: "Goblin 01", health: 10, attack: 1, defense: 0 },
+      { name: "Goblin 02", health: 10, attack: 1, defense: 0 },
     ],
     items: [
       "Short Sword"
@@ -38,9 +38,11 @@ export const level1 = [
       { direction: "south", to: 1 }, 
     ],
     monsters: [
-      { name: "Water Serpent", health: 15, attack: 8, defense: 6 }
+      { name: "Water Serpent", health: 15, attack: 2, defense: 2 }
     ],
-    items: [],
+    items: [
+      "Leader Armor"
+    ],
   },
 ] satisfies Game["dungeon"];
 
