@@ -82,13 +82,13 @@ function helpCommand(
   const [system, game] = listAllCommands(gameCommands, fileSystem);
 
   return [
-      `Displaying help information...`,
-      `System Commands:`,
-      `\t${system}`,
-      `Game Commands:`,
-      `\t${game}`,
-      'Write help [command] to get more information about a specific command.'
-    ].join("\n");
+    `Displaying help information...`,
+    `System Commands:`,
+    `\t${system}`,
+    `Game Commands:`,
+    `\t${game}`,
+    'Write help [command] to get more information about a specific command.'
+  ].join("\n");
 }
 
 const listAllCommands = (gameCommands: GameCommands, fileSystem: FileSystem) => [
