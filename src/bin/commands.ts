@@ -79,16 +79,21 @@ function helpCommand(
       "Unknown command. No help available."])
     .join("\n");
 
+  const [system, game] = listAllCommands(gameCommands, fileSystem);
+
   return [
       `Displaying help information...`,
-      `Available commands:`,
-      `\t${listAllCommands(gameCommands, fileSystem)}`,
+      `System Commands:`,
+      `\t${system}`,
+      `Game Commands:`,
+      `\t${game}`,
       'Write help [command] to get more information about a specific command.'
     ].join("\n");
 }
 
 const listAllCommands = (gameCommands: GameCommands, fileSystem: FileSystem) => [
-    ...Object.keys(systemCommands(gameCommands, fileSystem, undefined)),
-    ...Object.keys(gameCommands)]
-  .filter(x => x !== "help")
-  .join("\n\t");
+  Object.keys(systemCommands(gameCommands, fileSystem, undefined)).filter(x => x !== "help").join("\n\t"),
+  Object.keys(gameCommands).join("\n\t")
+];
+  
+  
