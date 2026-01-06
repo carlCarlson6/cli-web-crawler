@@ -3,7 +3,7 @@ import z from "zod";
 
 type Path = string;
 type Content = string;
-type Files = Record<Path, Content>;
+export type Files = Record<Path, Content>;
 
 const loadSavedFiles = () => {
   const savedFiles = localStorage.getItem("files");
@@ -24,8 +24,12 @@ export const useFileSystem = () => {
 
   return {
     writeFile: (path: Path, content: Content) => setFileSystem(prev => ({ ...prev, [path]: content })),
-    readFile: (path: Path) => files[path] || null,
-    files: Object.keys(files),
+    readFile: (path: Path|undefined) => {
+      if (!path) return "Usage: cat [file_path]";
+      return files[path] ? `File not found: ${path}` : files[path];
+    },
+    listAllFiles: () => Object.keys(files),
+    files,
   };
 };
 

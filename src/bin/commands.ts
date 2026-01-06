@@ -1,18 +1,20 @@
 import type { GameCommands } from "@/game";
 import { match } from "ts-pattern";
 import { type FileSystem } from "./fileSystem";
+import type { Game } from "@/game/model";
 
 export const systemCommands = (
+  game: Game,
   gameCommands: GameCommands,
   fileSystem: FileSystem,
   args: string | undefined
 ) : Record<string, () => string> => ({
-  help: () => helpCommand(gameCommands, fileSystem, args),
+  help: () => helpCommand(game, gameCommands, fileSystem, args),
   clear: () => {
     window.location.reload();
     return "";
   },
-  ls: () => fileSystem.files.join("\n") || "No files found.",
+  ls: () => fileSystem.listAllFiles().join("\n") || "No files found.",
   touch: () => {
     if (!args) return "Usage: touch [file_path]";
     fileSystem.writeFile(args, "");
@@ -27,16 +29,28 @@ export const systemCommands = (
     return `Wrote to file: ${filePath}`;
   },
   cat: () => {
-    if (!args) return "Usage: cat [file_path]";
-    const content = fileSystem.readFile(args);
-    return content !== null ? content : `File not found: ${args}`;
+    return fileSystem.readFile(args);
   },
+  save: () => {
+    const saveContent = JSON.stringify({ files: fileSystem.files, game }, null, 2);
+    const blob = new Blob([saveContent], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    const saveFileName = `dungeon_save_${new Date().toISOString()}.json`;
+    a.download = saveFileName;
+    a.click();
+    URL.revokeObjectURL(url);
+    return `Game state saved to file: ${saveFileName}`;
+  }
 });
 
 function helpCommand(
+  game: Game,
   gameCommands: GameCommands, 
   fileSystem: FileSystem,
-  specificCommand: string | undefined): string {
+  specificCommand: string | undefined
+): string {
   if (specificCommand) return match(specificCommand)
     .with("init",     () => [
       "Initialize a new game.", 
@@ -79,20 +93,24 @@ function helpCommand(
       "Unknown command. No help available."])
     .join("\n");
 
-  const [system, game] = listAllCommands(gameCommands, fileSystem);
+  const [systemCmdsStr, gameCmdsStr] = listAllCommands(game, gameCommands, fileSystem);
 
   return [
     `Displaying help information...`,
     `System Commands:`,
-    `\t${system}`,
+    `\t${systemCmdsStr}`,
     `Game Commands:`,
-    `\t${game}`,
+    `\t${gameCmdsStr}`,
     'Write help [command] to get more information about a specific command.'
   ].join("\n");
 }
 
-const listAllCommands = (gameCommands: GameCommands, fileSystem: FileSystem) => [
-  Object.keys(systemCommands(gameCommands, fileSystem, undefined)).filter(x => x !== "help").join("\n\t"),
+const listAllCommands = (
+  game: Game,
+  gameCommands: GameCommands, 
+  fileSystem: FileSystem
+) => [
+  Object.keys(systemCommands(game, gameCommands, fileSystem, undefined)).filter(x => x !== "help").join("\n\t"),
   Object.keys(gameCommands).join("\n\t")
 ];
   

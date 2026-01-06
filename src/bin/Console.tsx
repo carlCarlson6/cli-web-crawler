@@ -5,6 +5,7 @@ import { useStickToBottom } from "use-stick-to-bottom"
 import { shell } from "./shell";
 import { banner } from "@/game/utils";
 import { useFileSystem, type FileSystem } from "./fileSystem";
+import type { Game } from "@/game/model";
 
 type HistoryElement = {
   idx: number;
@@ -18,7 +19,7 @@ function Console() {
     [...prevHistory, { idx: prevHistory.length, ...newEntry }]
   );
 
-  const commands = useGame();
+  const [game, commands] = useGame();
   const fileSystem = useFileSystem()
   const sticky = useStickToBottom();
 
@@ -53,7 +54,8 @@ function Console() {
             <Container pt={2}>
               <ConsoleInput 
                 history={history}
-                updateHistory={updateHistory} 
+                updateHistory={updateHistory}
+                game={game}
                 gameCommands={commands}
                 fileSystem={fileSystem}
               />
@@ -86,9 +88,10 @@ function HistoryDisplay({
   </>);
 }
 
-function ConsoleInput({ updateHistory, gameCommands, history, fileSystem }: { 
+function ConsoleInput({ updateHistory, game, gameCommands, history, fileSystem }: { 
   updateHistory: (newEntry: { input: string; output: string }) => void,
   history: HistoryElement[],
+  game: Game,
   gameCommands: GameCommands, 
   fileSystem: FileSystem
 }) {
@@ -96,7 +99,7 @@ function ConsoleInput({ updateHistory, gameCommands, history, fileSystem }: {
     //e.preventDefault();
     if (e.key === "Enter") {
       const commandInput = e.currentTarget.value;
-      const result = shell(commandInput, gameCommands, fileSystem);
+      const result = shell(commandInput, game, gameCommands, fileSystem);
       updateHistory({ input: commandInput, output: result });
       e.currentTarget.value = "";
     }

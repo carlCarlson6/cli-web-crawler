@@ -23,19 +23,22 @@ export const useGame = () => {
     () => localStorage.setItem("gameState", JSON.stringify(game)), 
     [game]);
 
-  return {
-    init:     (name?: string)        => init(setGame, name),
-    describe: ()                     => describeRoom(game.currentRoom),
-    player:   ()                     => describePlayer(game),
-    move:     (direction?: string)   => move(setGame, game, direction),
-    attack:   (monsterName?: string) => attackCommand(setGame, game, monsterName),
-    map:      ()                     => showMapCommand(game),
-    search:   ()                     => searchCommand(game, setGame),
-    use:      (itemName?: string)    => useItemCommand(setGame, game, itemName)
-  };
+  return [
+    game,
+    {
+      init:     (name?: string)        => init(setGame, name),
+      describe: ()                     => describeRoom(game.currentRoom),
+      player:   ()                     => describePlayer(game),
+      move:     (direction?: string)   => move(setGame, game, direction),
+      attack:   (monsterName?: string) => attackCommand(setGame, game, monsterName),
+      map:      ()                     => showMapCommand(game),
+      search:   ()                     => searchCommand(game, setGame),
+      use:      (itemName?: string)    => useItemCommand(setGame, game, itemName)
+    }
+  ] as const;
 }
 
-export type GameCommands = ReturnType<typeof useGame>;
+export type GameCommands = ReturnType<typeof useGame>[1];
 
 export const runCommand = (
   commandKeyWord: string,
