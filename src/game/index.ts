@@ -19,9 +19,9 @@ const loadSavedGame = () => {
 export const useGame = () => {
   const [game, setGame] = useState<Game>(loadSavedGame());
 
-  useEffect(() => {
-    localStorage.setItem("gameState", JSON.stringify(game))
-  }, [game]);
+  useEffect(
+    () => localStorage.setItem("gameState", JSON.stringify(game)), 
+    [game]);
 
   return {
     init:     (name?: string)        => init(setGame, name),

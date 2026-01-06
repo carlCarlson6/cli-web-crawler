@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useStickToBottom } from "use-stick-to-bottom"
 import { shell } from "./shell";
 import { banner } from "@/game/utils";
+import { useFileSystem, type FileSystem } from "./fileSystem";
 
 type HistoryElement = {
   idx: number;
@@ -18,6 +19,7 @@ function Console() {
   );
 
   const commands = useGame();
+  const fileSystem = useFileSystem()
   const sticky = useStickToBottom();
 
   return (
@@ -53,6 +55,7 @@ function Console() {
                 history={history}
                 updateHistory={updateHistory} 
                 gameCommands={commands}
+                fileSystem={fileSystem}
               />
             </Container>
           
@@ -83,16 +86,17 @@ function HistoryDisplay({
   </>);
 }
 
-function ConsoleInput({ updateHistory, gameCommands, history }: { 
+function ConsoleInput({ updateHistory, gameCommands, history, fileSystem }: { 
   updateHistory: (newEntry: { input: string; output: string }) => void,
   history: HistoryElement[],
   gameCommands: GameCommands, 
+  fileSystem: FileSystem
 }) {
   const handleOnKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     //e.preventDefault();
     if (e.key === "Enter") {
       const commandInput = e.currentTarget.value;
-      const result = shell(commandInput, gameCommands);
+      const result = shell(commandInput, gameCommands, fileSystem);
       updateHistory({ input: commandInput, output: result });
       e.currentTarget.value = "";
     }
