@@ -70,11 +70,12 @@ function monsterAttack(monsterName: string, game: Game): { game: Game; dialogs: 
   const monsterActack = monster.attack + dice();
   const playerArmor = items.find(i => i.name === game.player.equipment.armor)?.defense ?? 0
   const playerDefense = dice() + playerArmor + Math.max(game.player.stats.constitution, game.player.stats.agility);
-  const damage = monsterActack - playerDefense > 0 ? monsterActack - playerDefense : 0;
+  const damage = monsterActack - playerDefense;
+  const resultingDamage = damage > 0 ? damage : 0;
 
-  const updatedPlayerHealth = game.player.health - damage;
+  const updatedPlayerHealth = game.player.health - resultingDamage;
   const dialogs = [
-    `${monster.name} attacks you for ${damage} damage! Your health is now ${updatedPlayerHealth > 0 ? updatedPlayerHealth : 0}.`
+    `${monster.name} attacks you for ${resultingDamage} damage! Your health is now ${updatedPlayerHealth > 0 ? updatedPlayerHealth : 0}.`
   ];
 
   if (updatedPlayerHealth <= 0) {
@@ -101,14 +102,15 @@ function monsterAttack(monsterName: string, game: Game): { game: Game; dialogs: 
 }
 
 function playerAttack(game: Game, monster: Monster): { game: Game; dialogs: string[] } {
-  const equippedWeapon = items.find(i => i.name === game.player.equipment.weapon)?.dammage ?? 0;
-  const playerAttackValue = dice() + game.player.stats.strength + equippedWeapon;
+  const equipedWeapon = items.find(i => i.name === game.player.equipment.weapon)?.dammage ?? 0;
+  const playerAttackValue = dice() + game.player.stats.strength + equipedWeapon;
   const monsterDefense = monster.defense + dice();
-  const damage = playerAttackValue - monsterDefense > 0 ? playerAttackValue - monsterDefense : 0;
+  const damage = playerAttackValue - monsterDefense;
+  const resultingDamage = damage > 0 ? damage : 0;
 
-  const updatedMonsterHealth = monster.health - damage;
+  const updatedMonsterHealth = monster.health - resultingDamage;
   const dialogs = [
-    `You attack ${monster.name} for ${damage} damage! Its health is now ${updatedMonsterHealth > 0 ? updatedMonsterHealth : 0}.`
+    `You attack ${monster.name} for ${resultingDamage} damage! Its health is now ${updatedMonsterHealth > 0 ? updatedMonsterHealth : 0}.`
   ];
   if (updatedMonsterHealth <= 0) {
     dialogs.push(`You have defeated ${monster.name}!`);
