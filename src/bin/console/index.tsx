@@ -3,6 +3,7 @@ import { useStickToBottom } from "use-stick-to-bottom"
 import { useShell } from "../shell";
 import { HistoryDisplay, InitialTextDisplay, useHistory } from "../history";
 import { ConsoleInput } from "./ConsoleInput";
+import { use } from "react";
 
 export default function Console() {
   const {
@@ -10,7 +11,7 @@ export default function Console() {
     updateHistory
    } = useHistory();
   const sticky = useStickToBottom();
-  const shell = useShell();
+  const {shell, user} = useShell();
 
   return (
     <Flex 
@@ -36,6 +37,7 @@ export default function Console() {
                 history={history}
                 updateHistory={updateHistory}
                 shell={shell}
+                userInfo={user}
               />
             </Container>
           

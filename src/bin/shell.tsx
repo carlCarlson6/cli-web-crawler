@@ -40,11 +40,14 @@ export const useShell = () => {
   const { selectFile } = useLoad();
   const auth = useAuth();
   
-  return shell(
+  return {
+    shell: shell(
       selectFile,
       auth,
       game,
       commands,
       fileSystem,
-    );
+    ),
+    user: auth.userInfo
+  }
 }

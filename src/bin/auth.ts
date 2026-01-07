@@ -27,8 +27,10 @@ export const useAuth = () => {
       signOut()
         .then(_ => window.location.reload());
       return "logout";
-    }
+    },
+    userInfo
   }
 }
 
 export type Auth = ReturnType<typeof useAuth>;
+export type UserInfo = Auth['userInfo'];
