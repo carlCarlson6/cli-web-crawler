@@ -11,7 +11,6 @@ export function ConsoleInput({
   userInfo: UserInfo;
 }) {
 
-
   const handleOnKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       const commandInput = e.currentTarget.value;
@@ -35,7 +34,7 @@ export function ConsoleInput({
     <Flex pb={4} gap={2} direction={"column"}>
       { userInfo 
         ? <Text color={"green.600"} textStyle={"xs"}>
-          {`[user: ${userInfo.email}]`}
+          {`[user: ${userInfo.name}]`}
         </Text> 
         : null
       }
