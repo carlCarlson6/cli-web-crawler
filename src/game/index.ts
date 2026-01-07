@@ -8,8 +8,10 @@ import { searchCommand } from "./commands/search";
 import { useItemCommand } from "./commands/use";
 import { match } from "ts-pattern";
 
+export const gameStorageName = "game"; 
+
 const loadSavedGame = () => {
-  const savedState = localStorage.getItem("gameState");
+  const savedState = localStorage.getItem(gameStorageName);
   if (!savedState) return createNewGame(undefined);
 
   const parsed = gameSchema.safeParse(JSON.parse(savedState));
@@ -20,7 +22,7 @@ export const useGame = () => {
   const [game, setGame] = useState<Game>(loadSavedGame());
 
   useEffect(
-    () => localStorage.setItem("gameState", JSON.stringify(game)), 
+    () => localStorage.setItem(gameStorageName, JSON.stringify(game)), 
     [game]);
 
   return [

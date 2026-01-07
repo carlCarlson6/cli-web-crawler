@@ -1,11 +1,11 @@
-import { useGame, type GameCommands } from "@/game";
+import { useGame } from "@/game";
 import { Container, Flex, Input, InputGroup, ScrollArea, Text } from "@chakra-ui/react";
 import { useState } from "react";
 import { useStickToBottom } from "use-stick-to-bottom"
 import { shell } from "./shell";
 import { banner } from "@/game/utils";
-import { useFileSystem, type FileSystem } from "./fileSystem";
-import type { Game } from "@/game/model";
+import { useFileSystem } from "./fileSystem";
+import { useLoad } from "./commands/load";
 
 type HistoryElement = {
   idx: number;
@@ -22,6 +22,14 @@ function Console() {
   const [game, commands] = useGame();
   const fileSystem = useFileSystem()
   const sticky = useStickToBottom();
+  const { selectFile } = useLoad();
+
+  const shellFunction = shell(
+    selectFile,
+    game,
+    commands,
+    fileSystem,
+  );
 
   return (
     <Flex 
@@ -55,9 +63,7 @@ function Console() {
               <ConsoleInput 
                 history={history}
                 updateHistory={updateHistory}
-                game={game}
-                gameCommands={commands}
-                fileSystem={fileSystem}
+                shell={shellFunction}
               />
             </Container>
           
@@ -88,18 +94,16 @@ function HistoryDisplay({
   </>);
 }
 
-function ConsoleInput({ updateHistory, game, gameCommands, history, fileSystem }: { 
+function ConsoleInput({ updateHistory, history, shell }: { 
   updateHistory: (newEntry: { input: string; output: string }) => void,
   history: HistoryElement[],
-  game: Game,
-  gameCommands: GameCommands, 
-  fileSystem: FileSystem
+  shell: (input: string) => string,
 }) {
   const handleOnKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     //e.preventDefault();
     if (e.key === "Enter") {
       const commandInput = e.currentTarget.value;
-      const result = shell(commandInput, game, gameCommands, fileSystem);
+      const result = shell(commandInput);
       updateHistory({ input: commandInput, output: result });
       e.currentTarget.value = "";
     }

@@ -4,10 +4,12 @@ import { systemCommands } from "./commands";
 import { type FileSystem } from "./fileSystem";
 
 export const shell = (
-  input: string,
+  selectLoadFile: () => void,
   game: Game,
   gameCommands: GameCommands,
   fileSystem: FileSystem,
+) => (
+  input: string
 ) => {
   console.log("Shell received input:", input);
   const commandKeyWord = input.split(" ").at(0)?.trim().toLowerCase();
@@ -16,6 +18,7 @@ export const shell = (
   }
 
   const maybeSystemCommand = systemCommands(
+    selectLoadFile,
     game,
     gameCommands, 
     fileSystem, 
