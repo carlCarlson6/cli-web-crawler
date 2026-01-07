@@ -32,7 +32,7 @@ export const systemCommands = (
     return `Wrote to file: ${filePath}`;
   },
   cat: () => fileSystem.readFile(args),
-  save: () => saveCommand(fileSystem.files, game),
+  save: () => saveCommand(fileSystem.files, game, auth),
   load: () => {
     selectLoadFile();
     return "";
