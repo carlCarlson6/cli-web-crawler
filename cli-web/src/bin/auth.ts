@@ -1,15 +1,23 @@
 import { useClerk, useAuth as useCleckAuth } from "@clerk/clerk-react"
+import { useEffect, useState } from "react";
 
 export const useAuth = () => {
   const {
     openSignIn,
     user,
   } = useClerk();
-  const { signOut } = useCleckAuth();
+  const { signOut, getToken } = useCleckAuth();
+  const [authToken, setAuthToken] = useState<string|undefined>();
+
+  useEffect(() => {
+    getToken()
+      .then(x => setAuthToken(x ?? undefined))
+      .catch(_ => setAuthToken(undefined));
+  }, [])
 
   const userInfo = user ? {
     name: user.fullName,
-    email: user.emailAddresses[0].emailAddress
+    email: user.emailAddresses[0].emailAddress,
   } : undefined
 
   return {
@@ -28,7 +36,8 @@ export const useAuth = () => {
         .then(_ => window.location.reload());
       return "logout";
     },
-    userInfo
+    userInfo,
+    token: authToken,
   }
 }
 

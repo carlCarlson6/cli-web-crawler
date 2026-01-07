@@ -1,3 +1,4 @@
+import type { Files } from "cli-contracts/files";
 import { useEffect, useState } from "react";
 import z from "zod";
 
@@ -6,8 +7,7 @@ export const filesStorageName = "files";
 type Path = string;
 type Content = string;
 
-export const filesSchema = z.record(z.string(), z.string());
-export type Files = z.infer<typeof filesSchema>;
+
 
 const loadSavedFiles = () => {
   const savedFiles = localStorage.getItem(filesStorageName);

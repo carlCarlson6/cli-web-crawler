@@ -1,4 +1,4 @@
-import type { Game } from "./model";
+import type { Game } from "cli-contracts/game";
 import { dice } from "./utils";
 
 export const items = [

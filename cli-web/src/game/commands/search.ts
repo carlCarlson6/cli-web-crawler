@@ -1,5 +1,5 @@
+import type { Game, UpdateGame } from "cli-contracts/game";
 import { items } from "../items";
-import type { Game, UpdateGame } from "../model";
 import { dice } from "../utils";
 
 export function searchCommand(

@@ -1,4 +1,4 @@
-import type { Game } from "./model";
+import type { Game } from "cli-contracts/game";
 
 export const dice = () => Math.floor(Math.random() * 8) + 1;
 

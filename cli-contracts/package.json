@@ -1,0 +1,17 @@
+{
+  "name": "cli-contracts",
+  "version": "1.0.0",
+  "description": "",
+  "type": "commonjs",
+  "main": "./src/index.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/node": "^25.0.3",
+    "zod": "^4.3.5"
+  }
+}

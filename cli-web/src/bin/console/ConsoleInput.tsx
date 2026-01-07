@@ -1,32 +1,36 @@
 import { InputGroup, Input, Text, Flex } from "@chakra-ui/react";
 import type { HistoryElement } from "../history";
 import type { UserInfo } from "../auth";
+import type { Shell } from "../shell";
+import { useState } from "react";
 
 export function ConsoleInput({ 
   updateHistory, history, shell, userInfo
 }: {
   updateHistory: (newEntry: { input: string; output: string; }) => void;
   history: HistoryElement[];
-  shell: (input: string) => string;
+  shell: Shell;
   userInfo: UserInfo;
 }) {
+  const [input, setInput] = useState<string>("");
 
-  const handleOnKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+  const handleOnKeyDown = async (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       const commandInput = e.currentTarget.value;
-      const result = shell(commandInput);
+      const result = await shell(commandInput);
       updateHistory({ input: commandInput, output: result });
-      e.currentTarget.value = "";
+      console.log(e.currentTarget);
+      setInput("");
     }
     if (e.key === "ArrowUp") {
       const lastElement = history.at(-1);
       if (lastElement) {
-        e.currentTarget.value = lastElement.input;
+        setInput(lastElement.input);
       }
     }
     if (e.ctrlKey && e.key === "c") {
       updateHistory({ input: e.currentTarget.value, output: '' });
-      e.currentTarget.value = "";
+      setInput("");
     }
   };
 
@@ -45,7 +49,11 @@ export function ConsoleInput({
           backgroundColor="black"
           border={"none"}
           variant={"flushed"}
-          onKeyDown={handleOnKeyDown} />
+          onKeyDown={handleOnKeyDown} 
+          onChange={e => setInput(e.currentTarget.value)}
+          value={input}
+        />
+
       </InputGroup>
     </Flex>
   );

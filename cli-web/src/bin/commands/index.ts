@@ -1,28 +1,26 @@
-import type { GameCommands } from "@/game";
 import { type FileSystem } from "../fileSystem";
-import type { Game } from "@/game/model";
 import { helpDescriptions } from "./help";
 import { saveCommand } from "./save";
 import type { Auth } from "../auth";
+import type { GameSystem } from "@/game";
+import type { ShellCommands } from "../shell";
 
 export const systemCommands = (
   selectLoadFile: () => void,
   auth: Auth,
-  game: Game,
-  gameCommands: GameCommands,
+  gameSystem: GameSystem,
   fileSystem: FileSystem,
-  args: string | undefined
-) : Record<string, () => string> => ({
-  help: () => helpCommand(selectLoadFile, auth, game, gameCommands, fileSystem, args),
+) : ShellCommands => ({
+  help: (args) => helpCommand(selectLoadFile, auth, gameSystem, fileSystem, args),
   clear: clearCommand,
-  ls: () => fileSystem.listAllFiles().join("\n") || "No files found.",
-  touch: () => {
+  ls: (_) => fileSystem.listAllFiles().join("\n") || "No files found.",
+  touch: (args) => {
     // TOOD: move to fileSystem
     if (!args) return "Usage: touch [file_path]";
     fileSystem.writeFile(args, "");
     return `File created: ${args}`;
   },
-  write: () => {
+  write: (args) => {
     // TOOD: move to fileSystem
     if (!args) return "Usage: write [file_path] [content]";
     const [filePath, ...contentParts] = args.split(" ");
@@ -31,13 +29,13 @@ export const systemCommands = (
     fileSystem.writeFile(filePath, content);
     return `Wrote to file: ${filePath}`;
   },
-  cat: () => fileSystem.readFile(args),
-  save: () => saveCommand(fileSystem.files, game, auth),
+  cat:  (args) => fileSystem.readFile(args),
+  save: () => saveCommand(fileSystem.files, gameSystem.game, auth),
   load: () => {
     selectLoadFile();
     return "";
   },
-  login: () => auth.login(),
+  login:  () => auth.login(),
   logout: () => auth.logOut(),
 });
 
@@ -49,16 +47,15 @@ function clearCommand(): string {
 function helpCommand(
   selectLoadFile: () => void,
   auth: Auth,
-  game: Game,
-  gameCommands: GameCommands, 
+  gameSystem: GameSystem,
   fileSystem: FileSystem,
   specificCommand: string | undefined
 ): string {
   if (specificCommand) return helpDescriptions(specificCommand);
 
   const [systemCmdsStr, gameCmdsStr] = [
-    Object.keys(systemCommands(selectLoadFile, auth, game, gameCommands, fileSystem, undefined)).filter(x => x !== "help").join("\n\t"),
-    Object.keys(gameCommands).join("\n\t")
+    Object.keys(systemCommands(selectLoadFile, auth, gameSystem, fileSystem)).filter(x => x !== "help").join("\n\t"),
+    Object.keys(gameSystem.commands).join("\n\t")
   ];
 
   return [
