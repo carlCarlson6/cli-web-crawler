@@ -3,7 +3,6 @@ import { useStickToBottom } from "use-stick-to-bottom"
 import { useShell } from "../shell";
 import { HistoryDisplay, InitialTextDisplay, useHistory } from "../history";
 import { ConsoleInput } from "./ConsoleInput";
-import { use } from "react";
 
 export default function Console() {
   const {
