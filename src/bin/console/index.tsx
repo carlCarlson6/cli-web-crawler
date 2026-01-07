@@ -1,8 +1,7 @@
-import { Container, Flex, ScrollArea, Text } from "@chakra-ui/react";
+import { Container, Flex, ScrollArea } from "@chakra-ui/react";
 import { useStickToBottom } from "use-stick-to-bottom"
 import { useShell } from "../shell";
-import { banner } from "@/game/utils";
-import { HistoryDisplay, useHistory } from "../history";
+import { HistoryDisplay, InitialTextDisplay, useHistory } from "../history";
 import { ConsoleInput } from "./ConsoleInput";
 
 export default function Console() {
@@ -27,17 +26,8 @@ export default function Console() {
             ref={sticky.contentRef} 
             color={"green.500"} 
             fontFamily={"mono"}
-          >
-            
-            <Container>
-              <pre>{banner}</pre>
-            </Container>
-            <Container>
-              <Text>{`> Welcome to the Dungeon web!`}</Text>
-              </Container>
-            <Container>
-              <Text>{`> Type "help" to see a list of available commands.`}</Text>
-            </Container>
+          > 
+            <InitialTextDisplay />
             
             <HistoryDisplay history={history} />
 

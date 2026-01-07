@@ -1,4 +1,5 @@
-import { Container } from "@chakra-ui/react";
+import { banner } from "@/game/utils";
+import { Container, Text } from "@chakra-ui/react";
 import { useState } from "react";
 
 export type HistoryElement = {
@@ -31,5 +32,19 @@ export function HistoryDisplay({
         </pre>
       </Container>
       ))}
+  </>);
+}
+
+export function InitialTextDisplay() {
+  return (<>
+    <Container>
+      <pre>{banner}</pre>
+    </Container>
+    <Container>
+      <Text>{`> Welcome to the Dungeon web!`}</Text>
+      </Container>
+    <Container>
+      <Text>{`> Type "help" to see a list of available commands.`}</Text>
+    </Container>
   </>);
 }

@@ -1,6 +1,6 @@
-import { InputGroup, Input, Container, Box, Text, Flex } from "@chakra-ui/react";
+import { InputGroup, Input, Box, Text } from "@chakra-ui/react";
 import type { HistoryElement } from "../history";
-import { useAuth, useSession } from "@clerk/clerk-react";
+import { useAuth } from "@clerk/clerk-react";
 
 export function ConsoleInput({ updateHistory, history, shell }: {
   updateHistory: (newEntry: { input: string; output: string; }) => void;
@@ -11,7 +11,7 @@ export function ConsoleInput({ updateHistory, history, shell }: {
 
   const startElement = isLoaded && isSignedIn
     ? userId
-    : "> ";
+    : null;
 
   const handleOnKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
@@ -33,11 +33,14 @@ export function ConsoleInput({ updateHistory, history, shell }: {
   };
 
   return (
-    <Flex  pb={4} align={"center"} gap={1}>
-      <Text color={"gray"}>
-        {startElement}
-      </Text>
-      <InputGroup>
+    <Box pb={4} gap={2}>
+      { startElement 
+        ? <Text color={"green.600"}>
+          {`user: [${startElement}]`}
+        </Text> 
+        : null
+      }
+      <InputGroup startElement={"> "}>
         <Input
           autoFocus
           placeholder="Type a command..."
@@ -45,6 +48,6 @@ export function ConsoleInput({ updateHistory, history, shell }: {
           border={"none"}
           onKeyDown={handleOnKeyDown} />
       </InputGroup>
-    </Flex>
+    </Box>
   );
 }
