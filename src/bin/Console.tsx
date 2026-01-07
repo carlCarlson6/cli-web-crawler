@@ -1,31 +1,27 @@
 import { useGame } from "@/game";
 import { Container, Flex, Input, InputGroup, ScrollArea, Text } from "@chakra-ui/react";
-import { useState } from "react";
 import { useStickToBottom } from "use-stick-to-bottom"
 import { shell } from "./shell";
 import { banner } from "@/game/utils";
 import { useFileSystem } from "./fileSystem";
 import { useLoad } from "./commands/load";
-
-type HistoryElement = {
-  idx: number;
-  input: string;
-  output: string;
-}
+import { useAuth } from "./auth";
+import { HistoryDisplay, useHistory, type HistoryElement } from "./history";
 
 function Console() {
-  const [history, setHistory] = useState<HistoryElement[]>([]);
-  const updateHistory = (newEntry: { input: string; output: string }) => setHistory(prevHistory => 
-    [...prevHistory, { idx: prevHistory.length, ...newEntry }]
-  );
-
+  const {
+    history, 
+    updateHistory
+   } = useHistory();
   const [game, commands] = useGame();
   const fileSystem = useFileSystem()
   const sticky = useStickToBottom();
   const { selectFile } = useLoad();
+  const auth = useAuth();
 
   const shellFunction = shell(
     selectFile,
+    auth,
     game,
     commands,
     fileSystem,
@@ -78,29 +74,12 @@ function Console() {
   );
 }
 
-function HistoryDisplay({ 
-  history,
-}: { 
-  history: { input: string; output?: string }[],
-}) {
-  return (<>
-    {history.map((line, index) => (
-      <Container key={index} >
-        <pre>
-          {`> ${line.input}\n${line.output}`}
-        </pre>
-      </Container>
-      ))}
-  </>);
-}
-
 function ConsoleInput({ updateHistory, history, shell }: { 
   updateHistory: (newEntry: { input: string; output: string }) => void,
   history: HistoryElement[],
   shell: (input: string) => string,
 }) {
   const handleOnKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    //e.preventDefault();
     if (e.key === "Enter") {
       const commandInput = e.currentTarget.value;
       const result = shell(commandInput);

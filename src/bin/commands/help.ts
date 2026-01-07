@@ -44,6 +44,9 @@ export const helpDescriptions = (command: string) => match(command)
     .with("load",   () => [
       "Load a console state from a file.", 
       "Usage: load"])
+    .with("login", () => [
+      "Initializes session. Allows to later on save the state on the cloud and enter in chats",
+      "Usage: login"])
     .otherwise(() => [
       "Unknown command. No help available."])
     .join("\n");

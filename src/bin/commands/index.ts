@@ -2,15 +2,18 @@ import type { GameCommands } from "@/game";
 import { type FileSystem } from "../fileSystem";
 import type { Game } from "@/game/model";
 import { helpDescriptions } from "./help";
+import { saveCommand } from "./save";
+import type { Auth } from "../auth";
 
 export const systemCommands = (
   selectLoadFile: () => void,
+  auth: Auth,
   game: Game,
   gameCommands: GameCommands,
   fileSystem: FileSystem,
   args: string | undefined
 ) : Record<string, () => string> => ({
-  help: () => helpCommand(selectLoadFile, game, gameCommands, fileSystem, args),
+  help: () => helpCommand(selectLoadFile, auth, game, gameCommands, fileSystem, args),
   clear: clearCommand,
   ls: () => fileSystem.listAllFiles().join("\n") || "No files found.",
   touch: () => {
@@ -29,22 +32,12 @@ export const systemCommands = (
   cat: () => {
     return fileSystem.readFile(args);
   },
-  save: () => {
-    const saveContent = JSON.stringify({ files: fileSystem.files, game }, null, 2);
-    const blob = new Blob([saveContent], { type: "application/json" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    const saveFileName = `dungeon_save_${new Date().toISOString()}.json`;
-    a.download = saveFileName;
-    a.click();
-    URL.revokeObjectURL(url);
-    return `Game state saved to file: ${saveFileName}`;
-  },
+  save: () => saveCommand(fileSystem.files, game),
   load: () => {
     selectLoadFile();
     return "";
-  }
+  },
+  login: () => auth.login(),
 });
 
 function clearCommand(): string {
@@ -54,6 +47,7 @@ function clearCommand(): string {
 
 function helpCommand(
   selectLoadFile: () => void,
+  auth: Auth,
   game: Game,
   gameCommands: GameCommands, 
   fileSystem: FileSystem,
@@ -62,7 +56,7 @@ function helpCommand(
   if (specificCommand) return helpDescriptions(specificCommand);
 
   const [systemCmdsStr, gameCmdsStr] = [
-    Object.keys(systemCommands(selectLoadFile, game, gameCommands, fileSystem, undefined)).filter(x => x !== "help").join("\n\t"),
+    Object.keys(systemCommands(selectLoadFile, auth, game, gameCommands, fileSystem, undefined)).filter(x => x !== "help").join("\n\t"),
     Object.keys(gameCommands).join("\n\t")
   ];
 
