@@ -1,5 +1,5 @@
 import { Box } from "@chakra-ui/react"
-import Console from "./bin/Console"
+import Console from "./bin/console"
 
 function App() {
   return (

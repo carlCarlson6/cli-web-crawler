@@ -17,11 +17,13 @@ export const systemCommands = (
   clear: clearCommand,
   ls: () => fileSystem.listAllFiles().join("\n") || "No files found.",
   touch: () => {
+    // TOOD: move to fileSystem
     if (!args) return "Usage: touch [file_path]";
     fileSystem.writeFile(args, "");
     return `File created: ${args}`;
   },
   write: () => {
+    // TOOD: move to fileSystem
     if (!args) return "Usage: write [file_path] [content]";
     const [filePath, ...contentParts] = args.split(" ");
     const content = contentParts.join(" ");
@@ -29,15 +31,14 @@ export const systemCommands = (
     fileSystem.writeFile(filePath, content);
     return `Wrote to file: ${filePath}`;
   },
-  cat: () => {
-    return fileSystem.readFile(args);
-  },
+  cat: () => fileSystem.readFile(args),
   save: () => saveCommand(fileSystem.files, game),
   load: () => {
     selectLoadFile();
     return "";
   },
   login: () => auth.login(),
+  logout: () => auth.logOut(),
 });
 
 function clearCommand(): string {

@@ -1,8 +1,9 @@
 import type { Game } from "@/game/model";
-import { runCommand, type GameCommands } from "../game";
+import { runCommand, useGame, type GameCommands } from "../game";
 import { systemCommands } from "./commands";
-import { type FileSystem } from "./fileSystem";
-import type { Auth } from "./auth";
+import { useFileSystem, type FileSystem } from "./fileSystem";
+import { useAuth, type Auth } from "./auth";
+import { useLoad } from "./commands/load";
 
 export const shell = (
   selectLoadFile: () => void,
@@ -31,4 +32,19 @@ export const shell = (
   return !!maybeSystemCommand 
     ? maybeSystemCommand() 
     : runCommand(commandKeyWord, input, gameCommands);
+}
+
+export const useShell = () => {
+  const [game, commands] = useGame();
+  const fileSystem = useFileSystem()
+  const { selectFile } = useLoad();
+  const auth = useAuth();
+  
+  return shell(
+      selectFile,
+      auth,
+      game,
+      commands,
+      fileSystem,
+    );
 }
