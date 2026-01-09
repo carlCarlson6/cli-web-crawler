@@ -6,13 +6,9 @@ import { mapSaveCliEndpoint } from "./saveCliEndpoint";
 let app = express()
 const PORT = 3000;
 
-app.use(cors({
-  origin: true,
-  credentials: true
-}));
+app.use(cors());
 app.use(express.json());
 
-app.options("*", cors());
 app = mapSaveCliEndpoint(app);
 
 app.listen(PORT, () => {
