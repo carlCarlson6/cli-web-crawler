@@ -1,8 +1,8 @@
 import "dotenv/config";
 import { requireAuth } from '@clerk/express';
 import type { Response, Request, Express } from 'express';
-import { getCurrentUser } from "../auth";
-import { saveCliRequestPayloadSchema as schema } from "cli-contracts/api";
+import { getCurrentUser } from "./auth";
+import { saveCliRequestPayloadSchema as schema } from "cli-contracts/src/api";
 
 export const mapSaveCliEndpoint = (app: Express) => app.post(
   '/api/save',
