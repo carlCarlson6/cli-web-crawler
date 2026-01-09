@@ -14,6 +14,10 @@ app.use(express.json());
 
 app = mapSaveCliEndpoint(app);
 
+export default app;
+
+/*
 app.listen(PORT, () => {
   console.log(`Example app listening at http://localhost:${PORT}`)
 });
+*/
