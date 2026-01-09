@@ -16,7 +16,6 @@ export const saveCommand = async (files: Files, game: Game, auth: Auth) => {
       credentials: "include",
       headers: {
         "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "*",
         "cache-control": "no-cache",
       },
       body: JSON.stringify({
