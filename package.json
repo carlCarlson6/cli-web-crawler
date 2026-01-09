@@ -8,7 +8,7 @@
   ],
     "scripts": {
     "build": "npm run build -ws",
-    "build:be": "npm run build -w cli-contracts && npm run build -w cli-contracts",
+    "build:be": "npm run build -w cli-contracts && npm run build -w cli-be",
     "dev": "npm run dev -ws",
     "lint": "npm run lint -ws"
   }
