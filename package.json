@@ -1,0 +1,14 @@
+{
+  "name": "cli-monorepo",
+  "private": true,
+  "workspaces": [
+    "cli-be",
+    "cli-web",
+    "cli-contracts"
+  ],
+    "scripts": {
+    "build": "npm run build -ws",
+    "dev": "npm run dev -ws",
+    "lint": "npm run lint -ws"
+  }
+}

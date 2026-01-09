@@ -15,7 +15,7 @@
   "dependencies": {
     "@clerk/express": "^1.7.61",
     "@types/dotenv": "^8.2.3",
-    "cli-contracts": "file:../cli-contracts",
+    "@cli/contracts": "*",
     "cors": "^2.8.5",
     "dotenv": "^17.2.3",
     "express": "^5.2.1",
