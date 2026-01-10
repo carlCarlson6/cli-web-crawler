@@ -3,14 +3,12 @@ import { requireAuth } from '@clerk/express';
 import type { Response, Request, Express } from 'express';
 import { getCurrentUser } from "./auth";
 import { saveCliRequestPayloadSchema as schema } from "@cli/contracts";
+import { requestLogger } from "./logger";
 
 export const mapSaveCliEndpoint = (app: Express) => app.post(
   '/api/save',
   requireAuth(),
-  (_, __, next) => {
-    console.log("POST /api/save");
-    next();
-  },
+  requestLogger,
   handler
 );
 
@@ -20,7 +18,9 @@ const handler = async (req: Request, res: Response) => {
 
   const user = await getCurrentUser(req);
 
-  console.log("pending to store cli")
+  console.log("pending to store cli");
 
-  return res.status(201);
+  return res.status(201).json({
+    message: "saved"
+  });
 }
