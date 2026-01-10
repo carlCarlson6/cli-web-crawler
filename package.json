@@ -7,9 +7,9 @@
     "cli-contracts"
   ],
     "scripts": {
-    "build": "npm run build -ws",
+    "build": "npm run build -w cli-contracts && npm run build -w cli-web",
     "build:be": "npm run build -w cli-contracts && npm run build -w cli-be",
-    "build:fe": "npm run build -w cli-contracts && npm install && npm run build -w cli-web",
+    "build:fe": "npm run build -w cli-contracts && npm run build -w cli-web",
     "dev": "npm run dev -ws",
     "lint": "npm run lint -ws"
   }
