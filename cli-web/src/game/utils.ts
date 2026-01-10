@@ -1,4 +1,4 @@
-import type { Game } from "cli-contracts/game";
+import type { Game } from "@cli/contracts";
 
 export const dice = () => Math.floor(Math.random() * 8) + 1;
 

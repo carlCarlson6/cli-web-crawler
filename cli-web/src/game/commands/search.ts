@@ -1,4 +1,4 @@
-import type { Game, UpdateGame } from "cli-contracts/game";
+import type { Game, UpdateGame } from "@cli/contracts";
 import { items } from "../items";
 import { dice } from "../utils";
 

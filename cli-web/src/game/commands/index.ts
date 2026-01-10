@@ -1,6 +1,6 @@
 import { match } from "ts-pattern";
 import { createNewGame } from "../utils";
-import type { Game, Room } from "cli-contracts/game";
+import type { Game, Room } from "@cli/contracts";
 
 export const init = (
   setGame: (game: Game) => void,

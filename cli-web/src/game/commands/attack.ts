@@ -1,7 +1,7 @@
 import { match } from "ts-pattern";
 import { dice } from "../utils";
 import { items } from "../items";
-import type { Game, Monster } from "cli-contracts/game";
+import type { Game, Monster } from "@cli/contracts";
 
 export const attackCommand = (
   updateGame: (game: Game) => void,

@@ -1,4 +1,4 @@
-import type { Files } from "cli-contracts/files";
+import type { Files } from "@cli/contracts";
 import { useEffect, useState } from "react";
 import z from "zod";
 

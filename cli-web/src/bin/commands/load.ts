@@ -1,8 +1,7 @@
 import { useFilePicker } from "use-file-picker"
 import z from "zod";
 import { gameStorageName } from "@/game";
-import { gameSchema } from "cli-contracts/game";
-import { filesSchema } from "cli-contracts/files";
+import { gameSchema, filesSchema } from "@cli/contracts";
 import { filesStorageName } from "../fileSystem";
 
 export const useLoad = () => {

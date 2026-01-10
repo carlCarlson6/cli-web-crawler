@@ -1,4 +1,4 @@
-import type { Game, Room } from "cli-contracts/game";
+import type { Game, Room } from "@cli/contracts";
 
 export function showMapCommand(game: Game) { 
   const dungeonMap = drawDungeonMap(game.dungeon, game.visitedRooms, game.currentRoom);

@@ -1,8 +1,6 @@
-import type { Game } from "cli-contracts/game";
+import type { Game, Files, SaveCliRequestPayload } from "@cli/contracts";
 import type { Auth } from "../auth";
 import { BE_BASE_URL } from "@/main";
-import type { Files } from "cli-contracts/files";
-import type { SaveCliRequestPayload } from "cli-contracts/api";
 
 export const saveCommand = async (files: Files, game: Game, auth: Auth) => {
   const saveDate = new Date().toISOString();

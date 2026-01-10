@@ -6,7 +6,7 @@ import { showMapCommand } from "./commands/map";
 import { searchCommand } from "./commands/search";
 import { useItemCommand } from "./commands/use";
 import type { ShellCommands } from "@/bin/shell";
-import { gameSchema, type Game } from "cli-contracts/game";
+import { gameSchema, type Game } from "@cli/contracts";
 
 export const gameStorageName = "game"; 
 
