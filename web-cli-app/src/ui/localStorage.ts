@@ -5,7 +5,7 @@ import { gameSchema, type Game } from "~/game";
 import { createNewGame } from "~/game/utils";
 
 const gameStorageName = "game"; 
-const filesStorageName = "files";
+export const filesStorageName = "files";
 
 export const setLoadCliState = (game: Game, files: Files) => {
   localStorage.setItem(filesStorageName, JSON.stringify(files));

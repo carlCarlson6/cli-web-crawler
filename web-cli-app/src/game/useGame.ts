@@ -14,20 +14,18 @@ import { createNewGame } from "~/game/utils";
 
 export const useGame = () => {
   const [game, setGame] = useState<Game>(createNewGame(undefined));
-
-  useEffect(
-    () => {
-      const savedGame = loadSavedGame();
-      setGame(savedGame);
-    }, 
-    []
-  );
-
-
   const updateGame = (game: Game) => {
     saveGame(game);
     setGame(game);
   }
+
+  useEffect(
+    () => {
+      const savedGame = loadSavedGame();
+      updateGame(savedGame);
+    }, 
+    []
+  );
 
   return {
     game, 
