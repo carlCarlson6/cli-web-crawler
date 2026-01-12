@@ -1,7 +1,8 @@
 import type { Game } from "~/game";
 import type { Auth } from "../auth";
 import type { Files } from "../files";
-import type { SaveCliRequestPayload } from "~/server/api/saveCliRequestPayload";
+import type { SaveCliRequestPayload } from "~/server/saveCliStatus";
+import { api } from "~/ui/react";
 
 export const saveCommand = async (files: Files, game: Game, auth: Auth) => {
   const saveDate = new Date().toISOString();
@@ -12,6 +13,8 @@ export const saveCommand = async (files: Files, game: Game, auth: Auth) => {
   const BE_BASE_URL = "TODO";
   if (auth.userInfo) {
     console.log("executing save");
+    api.
+
     const result = await fetch(`${BE_BASE_URL}/api/save`, {
       method: "POST",
       credentials: "include",
