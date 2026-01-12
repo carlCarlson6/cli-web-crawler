@@ -9,27 +9,17 @@ export const saveCommand = async (files: Files, game: Game, auth: Auth) => {
   const saveFileName = `dungeon_save_${saveDate}.json`;
   triggerDownload(saveFileName, files, game);
 
-  // migrate to tprc call
-  const BE_BASE_URL = "TODO";
   if (auth.userInfo) {
     console.log("executing save");
-    api.
-
-    const result = await fetch(`${BE_BASE_URL}/api/save`, {
-      method: "POST",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
-        "cache-control": "no-cache",
-      },
-      body: JSON.stringify({
+    const result = await api.saveCli
+      .useMutation()
+      .mutateAsync({
         fileName: saveFileName,
         date: saveDate,
         files,
         game
-      } satisfies SaveCliRequestPayload)
-    });
-    console.log("save request result", result.status);
+      });
+    console.log("save request result", result);
   }
 
   return `Game state saved to file: ${saveFileName}`;
